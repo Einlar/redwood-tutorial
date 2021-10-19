@@ -23,6 +23,9 @@ const ContactPage = () => {
   const formMethods = useForm()
 
   const [create, { loading, error }] = useMutation(CREATE_CONTACT, {
+    onError: (error) => {
+      console.log('An error has occurred', error.graphQLErrors)
+    }, //Error is not displayed like in the tutorial, but it is correctly returned by the db
     onCompleted: () => {
       toast.success('Thank you for your submission!')
       formMethods.reset()
@@ -75,10 +78,10 @@ const ContactPage = () => {
           name="email"
           validation={{
             required: true,
-            pattern: {
-              value: /[^@]+@[^.]+\..+/,
-              message: 'Please enter a valid email address',
-            },
+            // pattern: {
+            //   value: /[^@]+@[^.]+\..+/,
+            //   message: 'Please enter a valid email address',
+            // },
           }}
           className="border rounded-sm px-2 py-1"
           errorClassName="border rounded-sm px-2 py-1 border-red-700 outline-none"
